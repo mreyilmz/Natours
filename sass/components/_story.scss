@@ -1,0 +1,93 @@
+@use "../abstracts" as *;
+
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem $color-rgba-small;
+  background-color: rgba($color-white, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: $default-font-size;
+  transform: skewX(-12deg);
+
+  @include respond(tab-port) {
+    width: 100%;
+    padding: 3rem;
+    padding-left: 6rem;
+  }
+
+  @include respond(phone) {
+    transform: skewY(0);
+  }
+
+  /* birden fazla transform kullanamadığımız için burda kullanamıyoruz. */
+  /*   & > * {
+    transform: skewX(12deg);
+  } */
+
+  &__shape {
+    /* translateX ile görseli sola kaydırdık fakan paragraphın görseli sarma özelliği kayboldu. Biri content ekleme önerisini verdi ve sorun çözüldü fakat çözüm anlaşılmadı.  */
+    content: "";
+    width: 15rem;
+    height: 15rem;
+    float: left;
+
+    /* ilk 50% şeklin yarı çapı olacak. Çap 15rem old. için yarı çap 7.5rem oldu. 50% ile şekli kaplamasını sağladık. diğer 50% ler de noktanın merkezde olmasını sağladı. */
+    /* shape-outside bazı browserlarda çalışmadığı için webkit kullandık. */
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+
+    transform: translateX(-3rem) skewX(12deg);
+    position: relative;
+
+    @include respond(phone) {
+      transform: translateX(-3rem) skewY(0);
+    }
+  }
+
+  &__img {
+    height: 100%;
+
+    /* Yukarıda şekli -3rem kaydırdığımız için görseli de -3rem kaydırmamız gerekiyor. */
+    transform: translate(-3.5rem) scale(1.4);
+    transition: all 0.5s;
+  }
+
+  &__text {
+    transform: skewX(12deg);
+
+    @include respond(phone) {
+      transform: skewY(0);
+    }
+  }
+
+  &__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    color: $color-white;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s;
+    backface-visibility: hidden;
+  }
+
+  &:hover &__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover &__img {
+    transform: translate(-3.5rem) scale(1);
+
+    /* filter ve transform gibi property'lerde birdan fazla value kullanabiliyoruz. Filter'in daha fazla özelliği var  */
+    filter: blur(3px) brightness(80%);
+  }
+}

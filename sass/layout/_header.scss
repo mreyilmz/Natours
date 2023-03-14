@@ -1,0 +1,62 @@
+@use "../abstracts/" as *;
+.header {
+  height: 95vh;
+
+  /* Cihazın çözünürlüğü 192dpi'dan düşükse  hero görselinin daha ufak versiyonu kullanılacak */
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($color-primary-light, 0.8),
+      rgba($color-primary-dark, 0.8)
+    ),
+    url(../img/hero-small.jpg);
+  background-size: cover;
+  /* top bottom center gibi seçenekleri var. Pencere küçüldükçe odaklanacağı yeri belirtiyoruz. */
+  background-position: top;
+  position: relative;
+
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /* ilk parametre solt üst köşe
+      ikinci parametre sağ üst
+      üçüncü sağ alt
+      dördüncü sol alt */
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+
+  /* Cihazın çözünürlüğü 192dpi'dan yüksekse ve min genişilği 600px ise hero görselini kullanacak veya (veya'yı virgül ile belirttik OR gibi düşünebiliriz) minimum genişlik 2000px ise hero görselini kullancak. */
+  @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),
+    only screen and (min-width: 125em) {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)
+      ),
+      url(../img/hero.jpg);
+  }
+
+  @include respond(tab-port) {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+  }
+
+  &__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
+
+  /* height otomatik olarak scale olacaktır. width girseydik height otomatik scale olacaktı değişen birşey yok. */
+  &__logo {
+    height: 3.5rem;
+  }
+
+  &__text-box {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* .header__logo-box:hover .header__logo {
+  animation: moveInRight 1s;
+} */
